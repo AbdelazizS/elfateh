@@ -18,7 +18,7 @@ const plugin = Autoplay({
   stopOnInteraction: false
 })
 
-const images = ['/src/assets/watch.png', '/src/assets/pc.png']
+const images = ['../public/assets/watch.png', '../public/assets/pc.png']
 
 import { onMounted, watch } from 'vue'
 import { gsap } from 'gsap'

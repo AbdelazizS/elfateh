@@ -30,7 +30,22 @@ onMounted(() => {
     favoritesStore.getItems(authStore.userInfo)
     CartStore.getItems(authStore.userInfo)
   }
+
+  
 })
+
+
+
+watch(i18n.global.locale , ()=>{
+  if (i18n.global.locale.value === 'en') {
+    document.documentElement.dir = 'ltr'
+    document.documentElement.setAttribute('dir', 'ltr')
+  } else {
+    document.documentElement.dir = 'rtl'
+    document.documentElement.setAttribute('dir', 'rtl')
+  }
+})
+
 onBeforeMount(() => {
   if (i18n.global.locale.value === 'en') {
     document.documentElement.dir = 'ltr'
