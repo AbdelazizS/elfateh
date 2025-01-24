@@ -29,7 +29,7 @@ onMounted(() => {
   gsap.from('.fade-up-text', {
     scrollTrigger: {
       trigger: '.Footer',
-      start: 'top 80%'
+      start: 'top 80%',
       // toggleActions: 'play pause restart reset'
     },
     y: 50,
@@ -257,7 +257,7 @@ onMounted(() => {
         </li>
       </ul> -->
 
-          <p class="fade-up-text text-foreground text-sm">
+          <p class=" text-foreground text-sm">
             Copyright © {{}}
             <a href="/" target="_blank" class="text-primary hover:underline px-.5 font-semibold">{{
               $t(`logotxt`)

@@ -72,7 +72,9 @@
         size="sm"
         @click="Rating()"
       >
-        Submit
+
+      {{ $t('submit') }}
+
       </Button>
     </div>
   </div>

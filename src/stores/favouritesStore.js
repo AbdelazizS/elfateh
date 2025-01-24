@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
-import { useProductStore } from "./productStore";
 import { getFavourites } from "@/services/api";
 
 function updateLocalStorage(items) {

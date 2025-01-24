@@ -117,12 +117,16 @@ const handleDecrement = (item) => {
         }
       });
   } else {
-     decrementQty(item);
+    decrementQty(item);
     setTimeout(() => {
+      toast({
+        title: "shopping_cart.removed_success",
+        success: true,
+        duration: 3000,
+      });
       itemLoading(false);
       loading.value = false;
     }, 2000);
-
   }
 };
 
@@ -159,12 +163,15 @@ const handleIncrement = (item) => {
       });
   } else {
     incrementQty(item);
-
-   setTimeout(() => {
+    setTimeout(() => {
+      toast({
+        title: "shopping_cart.added_success",
+        success: true,
+        duration: 3000,
+      });
       itemLoading(false);
       loading.value = false;
     }, 2000);
-
   }
 };
 const removeFromCart = (item) => {
@@ -193,6 +200,13 @@ const removeFromCart = (item) => {
       });
   } else {
     removeItem(item.id);
+    setTimeout(() => {
+      toast({
+        title: "shopping_cart.removed_success",
+        success: true,
+        duration: 3000,
+      });
+    });
   }
 };
 
@@ -322,12 +336,7 @@ const {
           </Button>
           <Button
             @click="
-              removeFromCart(item),
-                toast({
-                  title: $t('shopping_cart.removed_success'),
-                  success: true,
-                  duration: 3000,
-                })
+              removeFromCart(item)
             "
             variant="outline"
             size="icon"

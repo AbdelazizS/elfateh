@@ -408,7 +408,6 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRoute } from "vue-router";
-import { useProductStore } from "@/stores/productStore";
 
 import { useCartStore } from "@/stores/cart.js";
 import { useFavoritesStore } from "@/stores/favouritesStore";
@@ -456,8 +455,7 @@ const favoritesStore = useFavoritesStore();
 const authStore = useAuthStore();
 const { addItem } = cartStore;
 const { addToFavorites, isInFavorites } = favoritesStore;
-const productStore = useProductStore();
-const { products } = productStore;
+
 const route = useRoute();
 const { toast } = useToast();
 
@@ -567,6 +565,13 @@ const addToCart = (item) => {
       });
   } else {
     addItem(item);
+    setTimeout(() => {
+      toast({
+        title: "shopping_cart.added_success",
+        success: true,
+        duration: 3000,
+      });
+    }, 1800);
   }
 };
 

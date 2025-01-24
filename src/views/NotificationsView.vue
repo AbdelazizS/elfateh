@@ -6,11 +6,7 @@ import Container from "@/layouts/Container.vue";
 import Footer from "../components/Footer.vue";
 // import { Badge } from '@/components/ui/badge'
 
-import { useFavoritesStore } from "@/stores/favouritesStore.js";
-
 // const favouriteItems = ref([])
-const favouriteStore = useFavoritesStore();
-const { favouriteItems } = favouriteStore;
 
 import { onMounted } from "vue";
 import { gsap } from "gsap";
@@ -33,6 +29,9 @@ onMounted(() => {
     })
     .catch((err) => {
       console.log(err);
+      if ((err.status = 422)) {
+        notifications.value = [];
+      }
     });
 
   gsap.from(".fade-up", {
@@ -66,17 +65,14 @@ onMounted(() => {
   <Container>
     <!--  -->
     <div class="py-8 mb-8 Notifications">
-      <div
-        class="grid md:grid-cols-2 gap-6 md:gap-8"
-        
-      >
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8">
         <div
-        v-if="notifications?.length > 0"
+          v-if="notifications"
           v-for="item in notifications"
           :key="item.id"
           class="fade-up relative px-4 py-6 border bg-card rounded-lg shadow-sm w-full"
         >
-          <div class="flex items-center justify-between w-full">
+          <div class="w-full">
             <div class="flex items-baseline gap-2">
               <div
                 tabindex="0"
@@ -102,11 +98,11 @@ onMounted(() => {
                 <h3 class="font-bold text-base text-foreground">
                   {{ item.title }}
                 </h3>
-                <p class="mt-1 text-sm text-muted-foreground">
-                  {{ item.notification }}
-                </p>
               </div>
             </div>
+            <p class="mt-1 text-sm text-muted-foreground">
+              {{ item.notification }}
+            </p>
             <p class="absolute top-3 end-3 text-xs text-muted-foreground">
               {{
                 new Date(item.created_at).toLocaleString(undefined, {
@@ -118,17 +114,13 @@ onMounted(() => {
               }}
             </p>
           </div>
-
-          
         </div>
 
         <Skeleton v-else v-for="i in 4" class="fade-up h-32 w-full" />
       </div>
 
-      
-
       <div
-       v-if="notifications?.length === 0"
+        v-if="notifications?.length === 0"
         class="heroBg mb-8 md:mb-16 flex flex-col justify-center space-y-6 text-center items-center"
       >
         <div>

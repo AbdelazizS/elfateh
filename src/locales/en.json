@@ -15,6 +15,7 @@
   "back": "back",
   "date": "Date",
   "edit": "Edit",
+  "search_here": "Search here for specific product",
   "or": "or",
   "download_now": "Download Now",
   "notifications": "Notifications",
@@ -57,7 +58,7 @@
     },
     "cta": {
       "title": "Let's create more tools and ideas that brings us together.",
-      "description": "Flowbite helps you connect with friends and communities of people who share your interests. Connecting with your friends and family as well as discovering new"
+      "description": "Shop online and get the best prices on electronics and accessories. Free shipping on a wide range of products."
     },
     "footer": {
       "services": "Services",
@@ -134,6 +135,8 @@
   "product_details": {
     "related_products": "Related Products",
     "reviews": "{count} Reviews",
+    "reviews_": "Reviews",
+    "addreview": "add Review",
     "customers_reviews": "Customers Reviws",
     "specifications": "Specifications",
     "product_specifications": "Product Specifications",

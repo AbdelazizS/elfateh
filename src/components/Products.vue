@@ -2,96 +2,116 @@
 <!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import ProductCard from './ProductCard.vue'
-import { Skeleton } from '@/components/ui/skeleton'
-import Container from '@/layouts/Container.vue'
-import { ref, onMounted } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { getFeaturedProducts } from '@/services/api'
+import ProductCard from "./ProductCard.vue";
+import { Skeleton } from "@/components/ui/skeleton";
+import Container from "@/layouts/Container.vue";
+import { ref, onMounted } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getFeaturedProducts } from "@/services/api";
+import { watch } from "vue";
+import { nextTick } from "vue";
 
-const featuredProducts = ref([])
-gsap.registerPlugin(ScrollTrigger)
+const featuredProducts = ref([]);
+gsap.registerPlugin(ScrollTrigger);
+
+watch(featuredProducts, (newData) => {
+  if (newData.length > 0) {
+    nextTick((a) => {
+      gsap.from(".p-card", {
+        scrollTrigger: {
+          trigger: ".Products",
+          start: "top 65%",
+          // toggleActions: "play pause restart reset",
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        delay: 0.2,
+        stagger: 0.25,
+      });
+    });
+  }
+});
 
 onMounted(() => {
   getFeaturedProducts()
     .then((res) => {
-      featuredProducts.value = res.data
+      featuredProducts.value = res.data;
     })
-    .catch((err) => {
-    })
+    .catch((err) => {});
 
-  gsap.from('.fade-up-txt', {
+  gsap.from(".fade-up-txt", {
     scrollTrigger: {
-      trigger: '.Products',
-      start: 'top 80%'
+      trigger: ".Products",
+      start: "top 80%",
       // toggleActions: 'play pause restart reset'
     },
     opacity: 0,
     y: 50,
     duration: 0.8,
-    stagger: 0.2
-  })
-  gsap.from('.p-card', {
+    stagger: 0.2,
+  });
+  gsap.from(".p-card", {
     scrollTrigger: {
-      trigger: '.Products',
-      start: 'top 65%',
-      toggleActions: 'play pause restart reset'
+      trigger: ".Products",
+      start: "top 65%",
+      toggleActions: "play pause restart reset",
     },
     opacity: 0,
     y: 50,
     duration: 0.8,
     delay: 0.2,
-    stagger: 0.25
-  })
-})
+    stagger: 0.25,
+  });
+});
 const items = ref([
   {
-    product_name: 'Mega LCD TV For Sports',
+    product_name: "Mega LCD TV For Sports",
     id: 1,
     product_price: 440,
     product_price_old: 500,
-    image: '/src/assets/pc.png',
-    category: 'Computers',
-    stars: 4
+    image: "/src/assets/pc.png",
+    category: "Computers",
+    stars: 4,
   },
   {
-    product_name: 'Mega LCD TV For Sports',
+    product_name: "Mega LCD TV For Sports",
     id: 1,
     product_price: 440,
     product_price_old: 500,
-    image: '/src/assets/pc.png',
-    category: 'Computers',
-    stars: 4
+    image: "/src/assets/pc.png",
+    category: "Computers",
+    stars: 4,
   },
   {
-    product_name: 'Mega LCD TV For Sports',
+    product_name: "Mega LCD TV For Sports",
     id: 1,
     product_price: 440,
     product_price_old: 500,
-    image: '/src/assets/pc.png',
-    category: 'Computers',
-    stars: 4
+    image: "/src/assets/pc.png",
+    category: "Computers",
+    stars: 4,
   },
   {
-    product_name: 'Apple Watch',
+    product_name: "Apple Watch",
     id: 2,
-    image: '/src/assets/watch.png',
-    category: 'Accessories',
+    image: "/src/assets/watch.png",
+    category: "Accessories",
     product_price: 240,
     product_price_old: 400.0,
-    stars: 2
+    stars: 2,
   },
   {
-    product_name: 'Iphone X',
+    product_name: "Iphone X",
     id: 3,
-    image: '/src/assets/squares-bg.png',
-    category: 'Phones',
+    image: "/src/assets/squares-bg.png",
+    category: "Phones",
     product_price: 840,
     product_price_old: 900.0,
-    stars: 3
-  }
-])
+    stars: 3,
+  },
+]);
 </script>
 <template>
   <section id="Products" class="Products my-8 md:my-16">
@@ -99,11 +119,15 @@ const items = ref([
 
     <Container>
       <div class="mb-8">
-        <h2 class="fade-up-txt text-2xl md:text-3xl text-foreground text tracking-wider font-bold">
-          {{ $t('home.products') }}
+        <h2
+          class="fade-up-txt text-2xl md:text-3xl text-foreground text tracking-wider font-bold"
+        >
+          {{ $t("home.products") }}
         </h2>
 
-        <p class="fade-up-txt text-base md:text-xl text-muted-foreground mt-2 mb-8">
+        <p
+          class="fade-up-txt text-base md:text-xl text-muted-foreground mt-2 mb-8"
+        >
           {{ $t(`home.categories_desc`) }}
         </p>
         <div
@@ -123,7 +147,12 @@ const items = ref([
               </div>
             </div>
           </div>
-          <ProductCard v-else v-for="item in featuredProducts" :key="item.id" :item="item" />
+          <ProductCard
+            v-else
+            v-for="item in featuredProducts"
+            :key="item.id"
+            :item="item"
+          />
         </div>
       </div>
     </Container>

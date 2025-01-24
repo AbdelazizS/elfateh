@@ -26,7 +26,6 @@ export const useCartStore = defineStore("cart", () => {
   const getItems = (userInfo) => {
     getCartItems(userInfo)
       .then((res) => {
-        console.log(res.data.data.carts);
         cartItems.value = res.data.data.carts;
         // console.log((cartItems.value = res.data.data.carts));
         localStorage.setItem(
@@ -35,7 +34,6 @@ export const useCartStore = defineStore("cart", () => {
         );
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 

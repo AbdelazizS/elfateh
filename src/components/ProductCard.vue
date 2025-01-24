@@ -26,27 +26,24 @@ const { addToFavorites } = favoritesStore;
 const addToCart = (item) => {
   loading.value = true;
 
-
   if (authStore.isAuthenticated) {
     addCartItem({ id: item.id, user: authStore.userInfo })
       .then((res) => {
         loading.value = false;
         if (res.data.success === true) {
           // addItem(item);
-          cartStore.getItems(authStore.userInfo)
+          cartStore.getItems(authStore.userInfo);
           toast({
             title: "shopping_cart.added_success",
             success: true,
             duration: 3000,
           });
         }
-
-
       })
       .catch((error) => {
         loading.value = false;
 
-        if (error.response.status = 400) {
+        if ((error.response.status = 400)) {
           toast({
             title: "shopping_cart.item_exists",
             error: true,
@@ -63,6 +60,13 @@ const addToCart = (item) => {
       });
   } else {
     addItem(item);
+    setTimeout(() => {
+      toast({
+        title: "shopping_cart.added_success",
+        success: true,
+        duration: 3000,
+      });
+    }, 1800);
   }
 };
 
@@ -92,7 +96,7 @@ function setFav() {
       addFavouriteItem({ id: id, user: authStore.userInfo })
         .then((res) => {
           if (res.data.success === true) {
-            favoritesStore.getItems(authStore.userInfo)
+            favoritesStore.getItems(authStore.userInfo);
             toast({
               title: "shopping_cart.added_to_fav",
               success: true,
@@ -113,7 +117,7 @@ function setFav() {
       removeFavouriteItem({ id: id, user: authStore.userInfo })
         .then((res) => {
           if (res.data.success === true) {
-            favoritesStore.getItems(authStore.userInfo)
+            favoritesStore.getItems(authStore.userInfo);
             toast({
               title: "shopping_cart.removed_from_fav",
               success: true,
@@ -139,6 +143,7 @@ function setFav() {
     });
   }
 }
+
 
 
 
@@ -172,7 +177,9 @@ function setFav() {
         >
           <svg
             :class="`size-5 ${
-              favoritesStore.isInFavorites(id) ? 'fill-red-500 text-red-600 ' : ''
+              favoritesStore.isInFavorites(id)
+                ? 'fill-red-500 text-red-600 '
+                : ''
             }`"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"

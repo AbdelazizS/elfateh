@@ -18,7 +18,7 @@ const plugin = Autoplay({
   stopOnInteraction: false
 })
 
-const images = ['../public/assets/watch.png', '../public/assets/pc.png']
+const images = ['./assets/watch.png', './assets/pc.png']
 
 import { onMounted, watch } from 'vue'
 import { gsap } from 'gsap'
@@ -118,9 +118,12 @@ onMounted(() => {
             </p>
 
             <div class="space-y-4 md:space-y-0 md:space-x-4">
-              <Button class="hero-description sm:w font-bold group/arrow shadow-xl"
+              <RouterLink to="/search/q">
+
+                <Button class="hero-description sm:w font-bold group/arrow shadow-xl"
                 >{{ $t(`home.shop_now`) }}
               </Button>
+            </RouterLink>
             </div>
           </div>
         </div>
@@ -129,7 +132,7 @@ onMounted(() => {
             class="relative w-full max-w-md hero-img"
             :plugins="[plugin]"
             @mouseenter="plugin.stop"
-            @mouseleave="[plugin.reset(), plugin.play(), console.log('Running')]"
+            @mouseleave="[plugin.reset(), plugin.play()]"
           >
             <CarouselContent>
               <CarouselItem v-for="(image, index) in images" :key="index">

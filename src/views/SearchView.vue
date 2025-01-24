@@ -1,95 +1,86 @@
 <script setup>
 // import { Button } from '../components/ui/button'
-import Navbar from '@/components/Navbar.vue'
-import Footer from '@/components/Footer.vue'
-import BottomNav from '@/components/BottomNav.vue'
-import { Skeleton } from '@/components/ui/skeleton'
-import Container from '@/layouts/Container.vue'
-import ProductCard from '@/components/ProductCard.vue'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
+import BottomNav from "@/components/BottomNav.vue";
+import { Skeleton } from "@/components/ui/skeleton";
+import Container from "@/layouts/Container.vue";
+import ProductCard from "@/components/ProductCard.vue";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 
-const newItems = ref([])
+const newItems = ref([]);
 
-import { onMounted, watch } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { onMounted, watch } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { search } from "@/services/api";
+import Button from "@/components/ui/button/Button.vue";
+gsap.registerPlugin(ScrollTrigger);
 onMounted(() => {
-  setTimeout(() => {
-    newItems.value = [
-      {
-        product_name: 'Mega LCD TV For Sports',
-        id: 1,
-        product_price: 440,
-        pre_price: 500,
-        img: '../assets/pc.png',
-        category: 'Computers',
-        stars: 4
-      },
-      {
-        product_name: 'Apple Watch',
-        id: 2,
-        img: '../assets/watch.png',
-        category: 'Accessories',
-        product_price: 240,
-        pre_price: 400.0,
-        stars: 2
-      },
-      {
-        product_name: 'Iphone X',
-        id: 3,
-        img: '../assets/squares-bg.png',
-        category: 'Phones',
-        product_price: 840,
-        pre_price: 900.0,
-        stars: 3
-      }
-    ]
-  }, 2000)
+  const searchQuery = route.params.q ? route.params.q.slice(2) : "";
+  search(searchQuery)
+    .then((res) => {
+      newItems.value = res.data.data.products;
+    })
+    .catch((err) => {
+      console.log(err);
 
-  setTimeout(() => {
-    newItems.value = [
-      {
-        product_name: 'Mega LCD TV For Sports',
-        id: 1,
-        product_price: 440,
-        pre_price: 500,
-        img: '../assets/pc.png',
-        category: 'Computers',
-        stars: 4
+      if (err.status === 404) {
+        notFound.value = true;
+        newItems.value = [];
       }
-    ]
-  }, 6000)
-  gsap.from('.fade-up', {
+    });
+
+  // setTimeout(() => {
+  //   newItems.value = [
+  //     {
+  //       product_name: "Mega LCD TV For Sports",
+  //       id: 1,
+  //       product_price: 440,
+  //       pre_price: 500,
+  //       img: "../assets/pc.png",
+  //       category: "Computers",
+  //       stars: 4,
+  //     },
+  //   ];
+  // }, 6000);
+  gsap.from(".fade-up", {
     scrollTrigger: {
-      trigger: '.Search_Sec',
-      start: 'top 60%'
+      trigger: ".Search_Sec",
+      start: "top 60%",
       // toggleActions: 'play pause restart reset'
     },
     y: 50,
     opacity: 0,
     delay: 0.4,
     duration: 0.7,
-    stagger: 0.1
-  })
-})
+    stagger: 0.1,
+  });
+});
 
-const route = useRoute()
-const products = ref([])
-const notFound = ref(false)
+const route = useRoute();
+const products = ref([]);
+const notFound = ref(false);
 
 watch(
-  () => newItems.value,
-  (newItems) => {
-    console.log('changed', newItems.length)
-    if (newItems.length < 2) {
-      notFound.value = true
-    }
+  () => route.params,
+  (Query_params) => {
+
+    const searchQuery = Query_params.q ? Query_params.q.slice(2) : "";
+    search(searchQuery)
+      .then((res) => {
+        newItems.value = res.data.data.products;
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (err.status === 404) {
+          newItems.value = [];
+        }
+      });
   }
-)
-// const query = String(route.params.query)
+);
 </script>
 
 <template>
@@ -100,12 +91,12 @@ watch(
     <!-- Title -->
 
     <Container>
-      <div class="mb-8" v-if="!notFound">
+      <div class="mb-8" v-if="newItems?.length">
         <h2
           v-if="newItems?.length"
           class="fade-up text-2xl md:text-3xl text-foreground text mb-8 tracking-wider font-bold"
         >
-          {{ $t('search.items_amount', { amount: '4' }) }}
+          {{ $t("search.items_amount", { amount: newItems?.length }) }}
         </h2>
 
         <div class="fade-up px-2 mb-8" v-else>
@@ -136,7 +127,12 @@ watch(
           v-else
           class="justify-items-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6"
         >
-          <ProductCard class="fade-up" v-for="item in newItems" :key="item.id" :item="item" />
+          <ProductCard
+            class="fade-up"
+            v-for="item in newItems"
+            :key="item.id"
+            :item="item"
+          />
         </div>
       </div>
 
@@ -147,7 +143,7 @@ watch(
       >
         <div>
           <img
-            src="/src/assets/empty_cart.svg"
+            src="/src/assets/search.svg"
             alt=""
             class="fade-up h-44 md:max-h-[200px] w-full mb-16"
           />
@@ -169,7 +165,7 @@ watch(
         </div>
         <RouterLink to="/">
           <Button variant="default" class="fade-up max-w-max">{{
-            $t('shopping_cart.continue_shopping')
+            $t("shopping_cart.continue_shopping")
           }}</Button>
         </RouterLink>
       </div>

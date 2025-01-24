@@ -9,6 +9,24 @@ export const instance = axios.create({
   },
 });
 
+export const search = (searchQuery) => {
+  return new Promise((resolve, reject) => {
+    instance
+
+      // product_category
+      .post("search", {
+        product_name: searchQuery,
+      })
+
+      .then((resp) => {
+        resolve(resp);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export const addOrder = ({
   user,
   totalAmount,
@@ -19,7 +37,6 @@ export const addOrder = ({
   locality,
 }) => {
   return new Promise((resolve, reject) => {
-
     instance
       .post("add_order", {
         platform: "1",
@@ -96,7 +113,6 @@ export const addCartItem = ({ id, user }) => {
 };
 
 export const setCartItem = ({ id, user, quantity }) => {
-
   return new Promise((resolve, reject) => {
     instance
 
@@ -206,8 +222,6 @@ export const getOrders = (id) => {
 
 export const getOrderDetails = ({ order_id, userInfo }) => {
   return new Promise((resolve, reject) => {
-
-    
     instance
       // product_category
       .post("get_order_details", {
@@ -231,7 +245,7 @@ export const getNotifications = (id) => {
       // product_category
       .post("get_notifications", {
         client_id: 274,
-        app_id: 2,
+        app_id: 1000,
       })
 
       .then((resp) => {
@@ -260,7 +274,6 @@ export const getCategories = () => {
   });
 };
 export const getProductDetails = async (id) => {
-
   return new Promise((resolve, reject) => {
     instance
 
@@ -319,7 +332,6 @@ export const getUser = (userInfo) => {
   });
 };
 export const getFavourites = (userInfo) => {
-
   return new Promise((resolve, reject) => {
     instance
       // product_category
@@ -373,7 +385,6 @@ export const getFeaturedProducts = () => {
 };
 export const ProductRate = ({ id, user, rate }) => {
   return new Promise((resolve, reject) => {
-
     instance
       // product_category
       .post("product_rate", {
@@ -485,8 +496,7 @@ export const ResetPassword = (payload) => {
         .catch((error) => {
           reject(error);
         });
-    } catch (err) {
-    }
+    } catch (err) {}
   });
 };
 
