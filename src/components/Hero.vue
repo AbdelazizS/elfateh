@@ -132,9 +132,9 @@ onMounted(() => {
             @mouseleave="[plugin.reset(), plugin.play(), console.log('Running')]"
           >
             <CarouselContent>
-              <CarouselItem v-for="(_, index) in 2" :key="index">
+              <CarouselItem v-for="(image, index) in images" :key="index">
                 <div class="p-1">
-                  <img className="w-full object-cover " :src="images[index]" alt="" />
+                  <img className="w-full object-cover " :src="image" alt="" />
                 </div>
               </CarouselItem>
             </CarouselContent>
