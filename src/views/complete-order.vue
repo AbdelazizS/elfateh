@@ -682,13 +682,15 @@
                   <div>#123456</div>
                 </div> -->
                 <div class="flex items-center gap-2">
-                  <!-- <div class="font-medium">
+                  <div class="font-medium">
                     {{ $t("order_complete.order_time") }}
                     :
                   </div>
                   <div>
-                    {{ `${Date.getYear()}` }}
-                  </div> -->
+                    {{ `${new Date().toLocaleString(
+                      undefined, {year: 'numeric', month: '2-digit', day: '2-digit', weekday:"long", hour: '2-digit',minute:'2-digit'}
+                    )}` }}
+                  </div>
                 </div>
               </div>
               <!-- <div
@@ -707,10 +709,13 @@
 
             </div>
             <div class="items-center flex w-full py-4 md:py-6">
-              <Button
-              >
-              {{ $t("order_complete.view") }}
-            </Button>
+              <RouterLink to="/profile/orders" >
+
+                <Button
+                >
+                {{ $t("order_complete.view") }}
+              </Button>
+            </RouterLink>
             </div>
           </div>
           </div>
@@ -733,7 +738,7 @@ import { Button } from "@/components/ui/button";
 import Container from "@/layouts/Container.vue";
 import Footer from "@/components/Footer.vue";
 import { ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { required, email, min, max, numeric } from "@vee-validate/rules";
 import { defineRule } from "vee-validate";
 import { onMounted } from "vue";

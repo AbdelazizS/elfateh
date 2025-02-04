@@ -487,8 +487,14 @@ onMounted(() => {
       })
         .then((res) => {
           newItems.value = res.data.data.products;
+
+          console.log(res ,'res');
+          
         })
-        .catch((err) => {});
+        .catch((err) => {
+          console.log(err);
+          
+        });
     })
     .catch((err) => {});
 
@@ -566,6 +572,7 @@ const addToCart = (item) => {
   } else {
     addItem(item);
     setTimeout(() => {
+      loading.value = false;
       toast({
         title: "shopping_cart.added_success",
         success: true,

@@ -296,7 +296,6 @@ export const getProductDetails = async (id) => {
 export const getRelatedProducts = ({ product_id, user, category_id }) => {
   return new Promise((resolve, reject) => {
     instance
-
       // product_category
       .post("related_products", {
         product_id,
