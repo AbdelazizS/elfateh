@@ -18,13 +18,13 @@ const plugin = Autoplay({
   stopOnInteraction: false
 })
 
-const images = ['./assets/watch.png', './assets/pc.png']
+const images = ref([]);
 
-import { onMounted, watch } from 'vue'
+import { onMounted, watch , ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageReady } from '@/composable/useWindowLoad'
-
+import { getBanners } from "@/services/api";
 // gsap.registerPlugin(ScrollTrigger)
 
 const { isReady } = usePageReady()
@@ -38,6 +38,10 @@ watch(
   }
 )
 onMounted(() => {
+  getBanners().then((response) => {
+    images.value = response.data.data
+    
+  });
   tl.add('start')
     // .to('.hero-img', { y: '-100%', duration: 1.5, delay: 2 }, 'start')
     .from('.hero-img', {
@@ -69,11 +73,13 @@ onMounted(() => {
       },
       'start'
     )
+
+
 })
 </script>
 
 <template>
-  <div class="relative py-8 md:py-16 overflow-hidden">
+  <div class="relative py-16 md:py-28 overflow-hidden">
     <Container>
       <div class="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
         <div class="">
@@ -135,9 +141,9 @@ onMounted(() => {
             @mouseleave="[plugin.reset(), plugin.play()]"
           >
             <CarouselContent>
-              <CarouselItem v-for="(image, index) in images" :key="index">
+              <CarouselItem v-for="(item, index) in images" :key="index">
                 <div class="p-1">
-                  <img className="w-full object-cover " :src="image" alt="" />
+                  <img className="w-full max-w-[300px] mx-auto h-72" :src="item.image" alt="" />
                 </div>
               </CarouselItem>
             </CarouselContent>

@@ -9,6 +9,35 @@ export const instance = axios.create({
   },
 });
 
+export const getOffers = () => {
+  return new Promise((resolve, reject) => {
+    instance
+      // product_category
+      .post("offers")
+
+      .then((resp) => {
+        resolve(resp);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getBanners = () => {
+  return new Promise((resolve, reject) => {
+    instance
+      // product_category
+      .get("banner")
+
+      .then((resp) => {
+        resolve(resp);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 export const search = (searchQuery) => {
   return new Promise((resolve, reject) => {
     instance
@@ -305,9 +334,12 @@ export const getRelatedProducts = ({ product_id, user, category_id }) => {
       })
 
       .then((resp) => {
+        console.log(resp);
+        
         resolve(resp);
       })
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
